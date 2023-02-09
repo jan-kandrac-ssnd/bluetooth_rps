@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -20,12 +22,14 @@ import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.nio.charset.StandardCharsets;
+
 import sk.ssnd.bluetoothrps.R;
 import sk.ssnd.bluetoothrps.bluetooth.ClientBluetoothThread;
 import sk.ssnd.bluetoothrps.bluetooth.CommunicationBluetoothThread;
 import sk.ssnd.bluetoothrps.bluetooth.SocketReceivedInterface;
 
-public class ClientActivity extends AppCompatActivity implements SocketReceivedInterface, ClientRecyclerAdapter.OnBluetoothDeviceSelectedListener {
+public class ClientActivity extends AppCompatActivity implements SocketReceivedInterface, ClientRecyclerAdapter.OnBluetoothDeviceSelectedListener, CommunicationBluetoothThread.OnMessageReceiveListener {
 
     private ClientBluetoothThread clientThread;
     private CommunicationBluetoothThread thread;
@@ -62,10 +66,21 @@ public class ClientActivity extends AppCompatActivity implements SocketReceivedI
     }
     // endregion
 
+
+    EditText message;
+    Button send;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
+        message = findViewById(R.id.message);
+        send = findViewById(R.id.send);
+        send.setOnClickListener((v) -> {
+            if (thread != null) {
+                thread.write(message.getText().toString().getBytes(StandardCharsets.UTF_8));
+            }
+        });
 
 
         recyclerAdapter = new ClientRecyclerAdapter(this);
@@ -100,7 +115,7 @@ public class ClientActivity extends AppCompatActivity implements SocketReceivedI
     @Override
     public void onSocketReceived(BluetoothSocket socket) {
         Log.e("ClientActivity", "Socket open");
-        thread = new CommunicationBluetoothThread(socket);
+        thread = new CommunicationBluetoothThread(socket, this);
         thread.start();
     }
 
@@ -110,6 +125,11 @@ public class ClientActivity extends AppCompatActivity implements SocketReceivedI
         Log.e("ClientActivity", "Device selected - " + device.getName());
         clientThread = new ClientBluetoothThread(device, manager.getAdapter(), this);
         clientThread.start();
+    }
+
+    @Override
+    public void onMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
     // endregion
 }

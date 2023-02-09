@@ -28,9 +28,17 @@ public final class CommunicationBluetoothThread extends Thread {
         int MESSAGE_TOAST = 2;
     }
 
-    public CommunicationBluetoothThread(BluetoothSocket socket) {
+    public interface OnMessageReceiveListener {
+        void onMessage(String message);
+    }
+
+    public CommunicationBluetoothThread(BluetoothSocket socket, OnMessageReceiveListener listener) {
         mmSocket = socket;
-        handler = new Handler(Looper.getMainLooper());
+
+        handler = new Handler(Looper.getMainLooper(), msg -> {
+            listener.onMessage(msg.obj.toString());
+            return true;
+        });
 
         InputStream tmpIn = null;
         OutputStream tmpOut = null;

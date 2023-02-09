@@ -2,7 +2,6 @@ package sk.ssnd.bluetoothrps.ui.server;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothSocket;
 import android.content.pm.PackageManager;
@@ -22,7 +21,7 @@ import sk.ssnd.bluetoothrps.bluetooth.CommunicationBluetoothThread;
 import sk.ssnd.bluetoothrps.bluetooth.ServerBluetoothThread;
 import sk.ssnd.bluetoothrps.bluetooth.SocketReceivedInterface;
 
-public class ServerActivity extends AppCompatActivity implements SocketReceivedInterface {
+public class ServerActivity extends AppCompatActivity implements SocketReceivedInterface, CommunicationBluetoothThread.OnMessageReceiveListener {
 
     private CommunicationBluetoothThread thread;
     private ServerBluetoothThread serverThread;
@@ -85,7 +84,12 @@ public class ServerActivity extends AppCompatActivity implements SocketReceivedI
     @Override
     public void onSocketReceived(BluetoothSocket socket) {
         Log.e("ServerActivity", "Socket open");
-        thread = new CommunicationBluetoothThread(socket);
+        thread = new CommunicationBluetoothThread(socket, this);
         thread.start();
+    }
+
+    @Override
+    public void onMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }
