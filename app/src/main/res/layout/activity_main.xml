@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/status"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="@font/alata"
+        android:gravity="center_horizontal"
+        android:text="Bluetooth nie je pripojené"
+        app:layout_constraintBottom_toTopOf="@+id/server"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/status_image" />
+
+    <TextView
+        android:id="@+id/text"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="12dp"
+        android:fontFamily="@font/alata"
+        android:text="Táto aplikácia slúži na ukážku Bluetooth komunikácie medzi klientom a serverom.\n\nNainštalujte ju na 2 zariadenia, tieto zariadenia v nastaveniach telefónu spárujte a skúste medzi nimi vyvolať komunikáciu"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/server"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/client"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/server_text"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:enabled="false"
+            android:padding="24dp"
+            android:text="Server"
+            android:textAllCaps="true" />
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/client"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/server">
+
+        <TextView
+            android:id="@+id/client_text"
+            style="@style/TextAppearance.AppCompat.Medium"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/selectableItemBackground"
+            android:enabled="false"
+            android:padding="24dp"
+            android:text="Client"
+            android:textAllCaps="true" />
+
+    </androidx.cardview.widget.CardView>
+
+    <ImageView
+        android:id="@+id/status_image"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintBottom_toTopOf="@+id/server"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text"
+        app:srcCompat="@drawable/bluetooth_off" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
