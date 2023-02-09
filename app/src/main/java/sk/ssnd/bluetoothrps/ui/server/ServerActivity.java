@@ -81,15 +81,17 @@ public class ServerActivity extends AppCompatActivity implements SocketReceivedI
         }
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     public void onSocketReceived(BluetoothSocket socket) {
-        Log.e("ServerActivity", "Socket open");
+        Log.e("ServerActivity", "Socket open with client -> " + socket.getRemoteDevice().getName());
         thread = new CommunicationBluetoothThread(socket, this);
         thread.start();
     }
 
     @Override
     public void onMessage(String message) {
+        Log.e("ServerActivity", "Message received -> " + message);
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

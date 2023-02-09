@@ -16,7 +16,7 @@ public final class ClientBluetoothThread extends Thread {
     private final SocketReceivedInterface socketInterface;
 
     @RequiresPermission(value = "android.permission.BLUETOOTH_CONNECT")
-    public ClientBluetoothThread(BluetoothDevice device, BluetoothAdapter bluetoothAdapter, SocketReceivedInterface socketInterface) {
+    public ClientBluetoothThread(BluetoothDevice device, SocketReceivedInterface socketInterface) {
         BluetoothSocket tmp = null;
 
         try {
@@ -34,7 +34,7 @@ public final class ClientBluetoothThread extends Thread {
         try {
             mmSocket.connect();
         } catch (IOException connectException) {
-            Log.e("Client", "Could connect to server");
+            Log.e("Client", "Could not connect to server");
             try {
                 mmSocket.close();
             } catch (IOException closeException) {

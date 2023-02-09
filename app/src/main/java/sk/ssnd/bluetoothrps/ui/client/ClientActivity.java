@@ -112,9 +112,10 @@ public class ClientActivity extends AppCompatActivity implements SocketReceivedI
     }
 
     // region socket handling
+    @SuppressLint("MissingPermission")
     @Override
     public void onSocketReceived(BluetoothSocket socket) {
-        Log.e("ClientActivity", "Socket open");
+        Log.e("Client", "Connected to server -> " + socket.getRemoteDevice().getName());
         thread = new CommunicationBluetoothThread(socket, this);
         thread.start();
     }
@@ -123,13 +124,18 @@ public class ClientActivity extends AppCompatActivity implements SocketReceivedI
     @Override
     public void onBluetoothDeviceSelected(BluetoothDevice device) {
         Log.e("ClientActivity", "Device selected - " + device.getName());
-        clientThread = new ClientBluetoothThread(device, manager.getAdapter(), this);
+        clientThread = new ClientBluetoothThread(device, this);
         clientThread.start();
     }
 
     @Override
     public void onMessage(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onWriteError(Exception e) {
+        Toast.makeText(this, "Error on write", Toast.LENGTH_SHORT).show();
     }
     // endregion
 }
