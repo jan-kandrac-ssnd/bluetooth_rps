@@ -94,4 +94,9 @@ public class ServerActivity extends AppCompatActivity implements SocketReceivedI
         Log.e("ServerActivity", "Message received -> " + message);
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    @Override
+    public void onWriteError(Exception e) {
+        Toast.makeText(this, "Error on write", Toast.LENGTH_SHORT).show();
+    }
 }
